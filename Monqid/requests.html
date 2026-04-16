@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monqid – طلبات الدم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/>
+      </svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li>
+      <a href="requests.html" class="active">
+        <span class="nav-icon">🩸</span> طلبات الدم
+        <!-- FIX: id unique, لا يتكرر -->
+        <span class="nav-badge" id="nav-count">0</span>
+      </a>
+    </li>
+    <li><a href="Campagnes.html"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+  </ul>
+
+  <div class="nav-auth">
+    <a href="#" class="btn-login">تسجيل الدخول</a>
+    <a href="#" class="btn-register">إنشاء حساب</a>
+  </div>
+
+  <!-- FIX: id unique للـ toggle -->
+  <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+</nav>
+
+<!-- ═══ MOBILE DRAWER ═══ -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html">
+    <span>🩸</span> طلبات الدم
+    <!-- FIX: id مختلف عن nav-count -->
+    <span class="nav-badge" id="nav-count-mobile">0</span>
+  </a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="#" class="btn-login">تسجيل الدخول</a>
+    <a href="#" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<!-- ═══ PAGE ═══ -->
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>طلبات <span>الدم</span> 🩸</h1>
+      <p>ساعد في إنقاذ حياة — كل تبرع يصنع فرقاً</p>
+    </div>
+    <button class="btn-add" id="btn-open-modal">
+      <i class="fa fa-plus"></i> إضافة طلب
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">🩸</div>
+      <div class="stat-info">
+        <div class="num" id="stat-total"><span>0</span></div>
+        <div class="lbl">إجمالي الطلبات</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🚨</div>
+      <div class="stat-info">
+        <div class="num" id="stat-critical"><span>0</span></div>
+        <div class="lbl">حالات حرجة</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📍</div>
+      <div class="stat-info">
+        <div class="num" id="stat-cities"><span>0</span></div>
+        <div class="lbl">مدن</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💧</div>
+      <div class="stat-info">
+        <div class="num" id="stat-bags"><span>0</span></div>
+        <div class="lbl">أكياس مطلوبة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <div class="search-wrap">
+      <i class="fa fa-search"></i>
+      <input type="text" id="search-inp" placeholder="ابحث بالاسم أو المدينة...">
+    </div>
+    <select class="filter-select" id="f-blood">
+      <option value="all">كل الفصائل</option>
+      <option>A+</option><option>A-</option>
+      <option>B+</option><option>B-</option>
+      <option>AB+</option><option>AB-</option>
+      <option>O+</option><option>O-</option>
+    </select>
+    <select class="filter-select" id="f-city">
+      <option value="all">كل المدن</option>
+    </select>
+  </div>
+
+  <div class="urgency-tabs" id="urg-tabs">
+    <button class="urg-btn active" data-urg="all">الكل</button>
+    <button class="urg-btn critical" data-urg="critical">🚨 حرجة</button>
+    <button class="urg-btn" data-urg="high">⚠️ عاجلة</button>
+    <button class="urg-btn" data-urg="normal">✅ عادية</button>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-grid" id="cards-grid"></div>
+
+</div>
+
+<!-- ═══ ADD REQUEST MODAL ═══ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="btn-close-modal"><i class="fa fa-times"></i></button>
+    <h2>طلب <span>دم</span> جديد</h2>
+    <p class="modal-sub">أدخل تفاصيل الطلب وسنساعدك في إيجاد المتبرعين</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>اسم المريض</label>
+        <input type="text" id="m-name" placeholder="الاسم الكامل">
+      </div>
+      <div class="form-group">
+        <label>المستشفى / المركز</label>
+        <input type="text" id="m-hospital" placeholder="اسم المستشفى">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>فصيلة الدم المطلوبة</label>
+      <div class="blood-selector" id="blood-selector">
+        <button class="blood-opt" data-blood="A+">A+</button>
+        <button class="blood-opt" data-blood="A-">A-</button>
+        <button class="blood-opt" data-blood="B+">B+</button>
+        <button class="blood-opt" data-blood="B-">B-</button>
+        <button class="blood-opt" data-blood="AB+">AB+</button>
+        <button class="blood-opt" data-blood="AB-">AB-</button>
+        <button class="blood-opt" data-blood="O+">O+</button>
+        <button class="blood-opt" data-blood="O-">O-</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>المدينة</label>
+        <input type="text" id="m-city" placeholder="مثل: الرباط">
+      </div>
+      <div class="form-group">
+        <label>عدد الأكياس المطلوبة</label>
+        <input type="number" id="m-bags" placeholder="3" min="1" max="20">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>درجة الاستعجال</label>
+        <select id="m-urgency">
+          <option value="critical">🚨 حرجة جداً</option>
+          <option value="high">⚠️ عاجلة</option>
+          <option value="normal">✅ عادية</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>رقم التواصل</label>
+        <input type="tel" id="m-phone" placeholder="+212 6XX XXX XXX">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>ملاحظات إضافية (اختياري)</label>
+      <textarea id="m-notes" placeholder="أي تفاصيل مهمة..."></textarea>
+    </div>
+
+    <button class="btn-submit" id="btn-submit">
+      <i class="fa fa-heart"></i> نشر الطلب
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fa fa-check-circle"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+  /* ════════════════════════════════
+     STATE
+  ════════════════════════════════ */
+  let requests = JSON.parse(localStorage.getItem('monqid-requests') || '[]');
+  let selectedBlood = '';
+  let activeUrgency = 'all';
+
+  /* seed data إذا كانت القائمة فارغة */
+  if (requests.length === 0) {
+    requests = [
+      { id: 1, name: 'أحمد بنعلي',    hospital: 'مستشفى ابن سينا',   blood: 'O+',  city: 'الرباط',      bags: 3, urgency: 'critical', phone: '+212612345678', notes: '', donated: false },
+      { id: 2, name: 'فاطمة الزهراء', hospital: 'مستشفى الشيخ زايد', blood: 'A-',  city: 'الدار البيضاء', bags: 2, urgency: 'high',     phone: '+212698765432', notes: '', donated: false },
+      { id: 3, name: 'يوسف المنصوري', hospital: 'المستشفى الجامعي',  blood: 'B+',  city: 'مراكش',       bags: 4, urgency: 'normal',   phone: '+212677889900', notes: '', donated: true  },
+    ];
+    saveRequests();
+  }
+
+  /* ════════════════════════════════
+     STORAGE
+  ════════════════════════════════ */
+  function saveRequests() {
+    localStorage.setItem('monqid-requests', JSON.stringify(requests));
+  }
+
+  /* ════════════════════════════════
+     STATS
+  ════════════════════════════════ */
+  function updateStats() {
+    const total    = requests.length;
+    const critical = requests.filter(r => r.urgency === 'critical').length;
+    const cities   = new Set(requests.map(r => r.city)).size;
+    const bags     = requests.reduce((s, r) => s + Number(r.bags), 0);
+
+    document.getElementById('stat-total').innerHTML    = `<span>${total}</span>`;
+    document.getElementById('stat-critical').innerHTML = `<span>${critical}</span>`;
+    document.getElementById('stat-cities').innerHTML   = `<span>${cities}</span>`;
+    document.getElementById('stat-bags').innerHTML     = `<span>${bags}</span>`;
+
+    /* nav badge */
+    document.getElementById('nav-count').textContent        = total;
+    document.getElementById('nav-count-mobile').textContent = total;
+
+    /* city filter */
+    const citySelect = document.getElementById('f-city');
+    const currentCity = citySelect.value;
+    citySelect.innerHTML = '<option value="all">كل المدن</option>';
+    [...new Set(requests.map(r => r.city))].forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = opt.textContent = c;
+      citySelect.appendChild(opt);
+    });
+    citySelect.value = currentCity;
+  }
+
+  /* ════════════════════════════════
+     RENDER CARDS
+  ════════════════════════════════ */
+  function renderCards() {
+    const query  = document.getElementById('search-inp').value.trim().toLowerCase();
+    const blood  = document.getElementById('f-blood').value;
+    const city   = document.getElementById('f-city').value;
+    const grid   = document.getElementById('cards-grid');
+
+    const urgLabel = { critical: 'حرجة', high: 'عاجلة', normal: 'عادية' };
+    const urgClass = { critical: 'critical', high: 'high', normal: 'normal' };
+
+    const filtered = requests.filter(r => {
+      const matchQ   = !query  || r.name.toLowerCase().includes(query) || r.city.toLowerCase().includes(query);
+      const matchB   = blood === 'all' || r.blood === blood;
+      const matchC   = city  === 'all' || r.city  === city;
+      const matchUrg = activeUrgency === 'all' || r.urgency === activeUrgency;
+      return matchQ && matchB && matchC && matchUrg;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <i class="fa fa-tint-slash"></i>
+          <p>لا توجد طلبات تطابق البحث</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(r => {
+      const maxBags   = Math.max(r.bags, 1);
+      const fillPct   = r.donated ? 100 : Math.round((1 / maxBags) * 100);
+      const donatedTxt = r.donated ? 'تم التبرع ✓' : 'التواصل للتبرع';
+      const donatedCls = r.donated ? 'donated' : '';
+
+      return `
+        <div class="req-card ${r.urgency === 'critical' ? 'urgent' : ''}">
+          <div class="card-top">
+            <div class="blood-badge">
+              <span class="drop">🩸</span>
+              <span class="type">${r.blood}</span>
+            </div>
+            <div class="urgency-tag ${urgClass[r.urgency]}">
+              <span class="dot"></span>
+              ${urgLabel[r.urgency]}
+            </div>
+          </div>
+
+          <div class="card-name">${r.name}</div>
+          <div class="card-sub">${r.hospital}</div>
+
+          <div class="card-meta">
+            <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>${r.city}</span></div>
+            <div class="meta-row"><i class="fa fa-tint"></i><span>${r.bags} أكياس</span></div>
+          </div>
+
+          <div class="bags-bar-wrap">
+            <div class="bags-label">
+              <span class="title">التقدم</span>
+              <span class="val">${fillPct}%</span>
+            </div>
+            <div class="bags-bar">
+              <div class="bags-fill" style="width:${fillPct}%"></div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-donate ${donatedCls}" onclick="callDonor('${r.phone}', ${r.donated})">
+              <i class="fa fa-phone"></i> ${donatedTxt}
+            </button>
+            <button class="btn-share" onclick="shareRequest(${r.id})" title="مشاركة">
+              <i class="fa fa-share-alt"></i>
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  /* ════════════════════════════════
+     HELPERS
+  ════════════════════════════════ */
+  function callDonor(phone, donated) {
+    if (donated) return;
+    window.location.href = `tel:${phone}`;
+  }
+
+  function shareRequest(id) {
+    const r = requests.find(x => x.id === id);
+    if (!r) return;
+    const txt = `🩸 طلب دم عاجل!\nالمريض: ${r.name}\nالفصيلة: ${r.blood}\nالمدينة: ${r.city}\nالمستشفى: ${r.hospital}\nللتواصل: ${r.phone}`;
+    if (navigator.share) {
+      navigator.share({ title: 'طلب دم', text: txt }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(txt).then(() => showToast('تم نسخ تفاصيل الطلب 📋'));
+    }
+  }
+
+  /* ════════════════════════════════
+     URGENCY TABS
+  ════════════════════════════════ */
+  document.getElementById('urg-tabs').addEventListener('click', function(e) {
+    const btn = e.target.closest('.urg-btn');
+    if (!btn) return;
+    document.querySelectorAll('.urg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeUrgency = btn.dataset.urg;
+    renderCards();
+  });
+
+  /* ════════════════════════════════
+     SEARCH / FILTERS
+  ════════════════════════════════ */
+  document.getElementById('search-inp').addEventListener('input', renderCards);
+  document.getElementById('f-blood').addEventListener('change', renderCards);
+  document.getElementById('f-city').addEventListener('change', renderCards);
+
+  /* ════════════════════════════════
+     MODAL
+  ════════════════════════════════ */
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+    resetForm();
+  }
+
+  /* إغلاق بالنقر خارج الـ modal-box */
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  document.getElementById('btn-open-modal').addEventListener('click', openModal);
+  document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+
+  /* ════════════════════════════════
+     BLOOD SELECTOR
+  ════════════════════════════════ */
+  document.getElementById('blood-selector').addEventListener('click', function(e) {
+    const btn = e.target.closest('.blood-opt');
+    if (!btn) return;
+    document.querySelectorAll('.blood-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedBlood = btn.dataset.blood;
+  });
+
+  /* ════════════════════════════════
+     SUBMIT REQUEST
+  ════════════════════════════════ */
+  document.getElementById('btn-submit').addEventListener('click', submitRequest);
+
+  function submitRequest() {
+    const name     = document.getElementById('m-name').value.trim();
+    const hospital = document.getElementById('m-hospital').value.trim();
+    const city     = document.getElementById('m-city').value.trim();
+    const bags     = parseInt(document.getElementById('m-bags').value) || 0;
+    const urgency  = document.getElementById('m-urgency').value;
+    const phone    = document.getElementById('m-phone').value.trim();
+    const notes    = document.getElementById('m-notes').value.trim();
+
+    /* validation */
+    if (!name)          return showToast('⚠️ أدخل اسم المريض');
+    if (!hospital)      return showToast('⚠️ أدخل اسم المستشفى');
+    if (!selectedBlood) return showToast('⚠️ اختر فصيلة الدم');
+    if (!city)          return showToast('⚠️ أدخل المدينة');
+    if (bags < 1)       return showToast('⚠️ أدخل عدد الأكياس');
+    if (!phone)         return showToast('⚠️ أدخل رقم التواصل');
+
+    const newId = requests.length ? Math.max(...requests.map(r => r.id)) + 1 : 1;
+
+    requests.unshift({
+      id: newId, name, hospital,
+      blood: selectedBlood, city,
+      bags, urgency, phone, notes,
+      donated: false
+    });
+
+    saveRequests();
+    updateStats();
+    renderCards();
+    closeModal();
+    showToast('✅ تم نشر الطلب بنجاح!');
+  }
+
+  function resetForm() {
+    ['m-name','m-hospital','m-city','m-bags','m-phone','m-notes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('m-urgency').value = 'critical';
+    document.querySelectorAll('.blood-opt').forEach(b => b.classList.remove('selected'));
+    selectedBlood = '';
+  }
+
+  /* ════════════════════════════════
+     MOBILE MENU
+  ════════════════════════════════ */
+  document.getElementById('menuToggle').addEventListener('click', function() {
+    const drawer = document.getElementById('mobileDrawer');
+    const isOpen = drawer.classList.toggle('open');
+    this.textContent = isOpen ? '✕' : '☰';
+  });
+
+  /* إغلاق الدرج عند النقر خارجه */
+  document.addEventListener('click', function(e) {
+    const drawer = document.getElementById('mobileDrawer');
+    const toggle = document.getElementById('menuToggle');
+    if (drawer.classList.contains('open') && !drawer.contains(e.target) && e.target !== toggle) {
+      drawer.classList.remove('open');
+      toggle.textContent = '☰';
+    }
+  });
+
+  /* ════════════════════════════════
+     TOAST
+  ════════════════════════════════ */
+  let toastTimer;
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  /* ════════════════════════════════
+     INIT
+  ════════════════════════════════ */
+  updateStats();
+  renderCards();
+</script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monqid – حملات التبرع</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .org-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(232,48,74,0.1);
+      border: 1px solid var(--border-r);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+    .verified { color: #3b9ede; font-size: 12px; margin-right: 3px; }
+    .campaign-title { font-size: 17px; font-weight: 900; margin-bottom: 3px; color: var(--text); }
+    .org-name {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .org-name i { color: var(--red); font-size: 11px; }
+    .campaign-desc {
+      font-size: 13px; color: #aaa; line-height: 1.7;
+      margin-bottom: 14px;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .blood-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .blood-tag {
+      background: var(--red-soft); border: 1px solid var(--border-r);
+      color: var(--red); font-size: 11px; font-weight: 800;
+      padding: 2px 8px; border-radius: 6px;
+    }
+    .date-range {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted); margin-bottom: 12px;
+    }
+    .date-range i { color: var(--red); }
+    .target-info {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 6px;
+    }
+    .target-info .title { font-size: 12px; color: var(--muted); }
+    .target-info .count { font-size: 13px; font-weight: 800; color: var(--red); }
+    .card-actions { display: flex; gap: 8px; }
+    .btn-join {
+      flex: 1; padding: 10px; background: var(--red);
+      border: none; border-radius: 10px; color: #fff;
+      font-family: var(--font); font-weight: 700; font-size: 13px;
+      cursor: pointer; box-shadow: 0 0 14px var(--red-glow);
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .btn-join:hover { background: #ff3d59; transform: translateY(-1px); }
+    .btn-join.completed { background: linear-gradient(135deg,#1a5c1a,#166534); cursor: default; transform: none; box-shadow: none; }
+    .btn-info {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-size: 14px; cursor: pointer;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .btn-info:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/>
+      </svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم</a></li>
+    <li><a href="Campagnes.html" class="active"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+  </ul>
+  <div class="nav-auth">
+    <a href="#" class="btn-login">تسجيل الدخول</a>
+    <a href="#" class="btn-register">إنشاء حساب</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+</nav>
+
+<!-- ═══ MOBILE DRAWER ═══ -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم</a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+    <li><a href="profil.html"><span class="nav-icon">👤</span>  حسابي</a></li>
+
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<!-- ═══ PAGE ═══ -->
+<div class="page">
+
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>📣 حملات <span>التبرع</span></h1>
+      <p>حملات منظّمة من جمعيات ومراكز صحية معتمدة — شارك وأنقذ أرواحاً</p>
+    </div>
+    <button class="btn-add" id="btn-open-modal">
+      <i class="fa fa-plus"></i> إضافة حملة
+    </button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">🏥</div>
+      <div class="stat-info"><div class="num"><span>18</span></div><div class="lbl">جمعية مشاركة</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📣</div>
+      <div class="stat-info"><div class="num"><span>8</span></div><div class="lbl">حملات نشطة</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info"><div class="num"><span>342</span></div><div class="lbl">متبرع مشارك</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🩸</div>
+      <div class="stat-info"><div class="num"><span>120</span></div><div class="lbl">وحدة دم جُمعت</div></div>
+    </div>
+  </div>
+
+  <div class="filters-bar">
+    <div class="search-wrap">
+      <i class="fa fa-search"></i>
+      <input type="text" id="search-inp" placeholder="ابحث باسم الجمعية أو المدينة...">
+    </div>
+    <select class="filter-select" id="f-blood">
+      <option value="all">كل الفصائل</option>
+      <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+      <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+    </select>
+    <select class="filter-select" id="f-city">
+      <option value="all">كل المدن</option>
+      <option>الرباط</option><option>الدار البيضاء</option>
+      <option>فاس</option><option>مراكش</option><option>طنجة</option><option>مكناس</option>
+    </select>
+  </div>
+
+  <div class="urgency-tabs" id="urg-tabs">
+    <button class="urg-btn active" data-urg="all">الكل</button>
+    <button class="urg-btn critical" data-urg="critical">🔥 عاجلة</button>
+    <button class="urg-btn" data-urg="high">⚠️ مهمة</button>
+    <button class="urg-btn" data-urg="normal">✅ عادية</button>
+  </div>
+
+  <div class="cards-grid" id="cards-grid">
+
+    <!-- Card 1 -->
+    <div class="campaign-card critical" data-urgency="critical" data-city="الرباط" data-blood="O-,O+,A-">
+      <div class="card-top">
+        <div class="urgency-badge badge-critical"><span class="dot"></span> عاجلة</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">O-</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> جمعية معتمدة <i class="fa fa-check-circle verified"></i></div>
+        <div class="campaign-title">حملة إنقاذ — نقص حاد في الدم</div>
+        <div class="org-name"><i class="fa fa-heart"></i> جمعية الهلال الأحمر المغربي – الرباط</div>
+        <div class="campaign-desc">نقص حاد في مخزون فصيلة O- بالمستشفيات. نحتاج متبرعين بشكل عاجل لإنقاذ حياة المرضى.</div>
+        <div class="blood-tags"><span class="blood-tag">O-</span><span class="blood-tag">O+</span><span class="blood-tag">A-</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 10 مارس 2026 — إلى 20 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>الرباط</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>+212 537 000 111</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 50 وحدة</span><span class="count">18 / 50</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:36%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:+212537000111'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="campaign-card urgent" data-urgency="high" data-city="الدار البيضاء" data-blood="A+,B+,AB+">
+      <div class="card-top">
+        <div class="urgency-badge badge-urgent"><span class="dot"></span> مهمة</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">A+</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> مركز صحي معتمد</div>
+        <div class="campaign-title">يوم التبرع الوطني 2026</div>
+        <div class="org-name"><i class="fa fa-heart"></i> مركز تحاقن الدم – الدار البيضاء</div>
+        <div class="campaign-desc">حملة سنوية لتجديد المخزون الوطني. مفتوحة لجميع الفصائل مع أولوية لـ A+ و B+.</div>
+        <div class="blood-tags"><span class="blood-tag">A+</span><span class="blood-tag">B+</span><span class="blood-tag">AB+</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 15 مارس 2026 — إلى 30 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>الدار البيضاء</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>+212 522 000 222</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 100 وحدة</span><span class="count">63 / 100</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:63%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:+212522000222'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="campaign-card normal" data-urgency="normal" data-city="فاس" data-blood="B+,B-,O+">
+      <div class="card-top">
+        <div class="urgency-badge badge-normal"><span class="dot"></span> عادية</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">B+</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> جمعية معتمدة <i class="fa fa-check-circle verified"></i></div>
+        <div class="campaign-title">حملة دمك حياة — فاس 2026</div>
+        <div class="org-name"><i class="fa fa-heart"></i> جمعية التضامن الصحي – فاس</div>
+        <div class="campaign-desc">حملة توعوية وتبرعية تستهدف الشباب الجامعي. إمكانية التبرع في عدة نقاط بالمدينة.</div>
+        <div class="blood-tags"><span class="blood-tag">B+</span><span class="blood-tag">B-</span><span class="blood-tag">O+</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 18 مارس 2026 — إلى 25 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>فاس</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>+212 535 000 333</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 40 وحدة</span><span class="count">30 / 40</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:+212535000333'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>
+    </div>
+
+    <!-- Card 4 — Completed -->
+    <div class="campaign-card normal" data-urgency="normal" data-city="مراكش" data-blood="AB+,AB-">
+      <div class="card-top">
+        <div class="urgency-badge badge-normal"><span class="dot"></span> مكتملة</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">AB</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> مؤسسة صحية</div>
+        <div class="campaign-title">حملة أكمل ما بدأنا — مراكش</div>
+        <div class="org-name"><i class="fa fa-heart"></i> مؤسسة محمد الخامس للتضامن</div>
+        <div class="campaign-desc">حملة ناجحة وصلنا فيها للهدف. شكراً لجميع المتبرعين الكرام الذين ساهموا في إنقاذ الأرواح.</div>
+        <div class="blood-tags"><span class="blood-tag">AB+</span><span class="blood-tag">AB-</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 01 مارس 2026 — إلى 08 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>مراكش</span></div>
+          <div class="meta-row"><i class="fa fa-users"></i><span>32 متبرع</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 30 وحدة</span><span class="count">30 / 30 ✅</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join completed" disabled><i class="fa fa-check-circle"></i> اكتملت الحملة</button>
+      </div></div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="campaign-card urgent" data-urgency="high" data-city="مكناس" data-blood="O+,A+">
+      <div class="card-top">
+        <div class="urgency-badge badge-urgent"><span class="dot"></span> مهمة</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">O+</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> جمعية معتمدة <i class="fa fa-check-circle verified"></i></div>
+        <div class="campaign-title">حملة مكناس للحياة</div>
+        <div class="org-name"><i class="fa fa-heart"></i> جمعية نجدة الجنوب – مكناس</div>
+        <div class="campaign-desc">نحتاج متبرعين بفصيلتي O+ وA+ لتغطية احتياجات المستشفى الإقليمي ومركز الأورام.</div>
+        <div class="blood-tags"><span class="blood-tag">O+</span><span class="blood-tag">A+</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 12 مارس 2026 — إلى 22 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>مكناس</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>+212 555 000 444</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 35 وحدة</span><span class="count">12 / 35</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:34%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:+212555000444'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="campaign-card critical" data-urgency="critical" data-city="طنجة" data-blood="A-,O-">
+      <div class="card-top">
+        <div class="urgency-badge badge-critical"><span class="dot"></span> عاجلة</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">A-</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> مركز صحي معتمد</div>
+        <div class="campaign-title">استغاثة عاجلة — CHU طنجة</div>
+        <div class="org-name"><i class="fa fa-heart"></i> المركز الاستشفائي الجامعي – طنجة</div>
+        <div class="campaign-desc">مخزون الدم النادر وصل للحد الأدنى. نطلب تدخلاً عاجلاً من المتبرعين في المنطقة الشمالية.</div>
+        <div class="blood-tags"><span class="blood-tag">A-</span><span class="blood-tag">O-</span></div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> من 06 مارس 2026 — إلى 16 مارس 2026</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>طنجة</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>+212 539 000 555</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: 25 وحدة</span><span class="count">3 / 25</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:12%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:+212539000555'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="btn-close-modal"><i class="fa fa-times"></i></button>
+    <h2>حملة <span>تبرع</span> جديدة</h2>
+    <p class="modal-sub">خاصة بالجمعيات والمراكز الصحية المعتمدة فقط</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>اسم الجمعية / المؤسسة</label>
+        <input type="text" id="m-org" placeholder="مثل: جمعية الهلال الأحمر">
+      </div>
+      <div class="form-group">
+        <label>عنوان الحملة</label>
+        <input type="text" id="m-title" placeholder="مثل: حملة دمك حياة">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>وصف الحملة</label>
+      <textarea id="m-desc" placeholder="اشرح هدف الحملة وسبب الحاجة للتبرع..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>فصائل الدم المطلوبة (يمكن اختيار أكثر من واحدة)</label>
+      <div class="blood-selector" id="blood-selector">
+        <button class="blood-opt" data-blood="A+">A+</button>
+        <button class="blood-opt" data-blood="A-">A-</button>
+        <button class="blood-opt" data-blood="B+">B+</button>
+        <button class="blood-opt" data-blood="B-">B-</button>
+        <button class="blood-opt" data-blood="AB+">AB+</button>
+        <button class="blood-opt" data-blood="AB-">AB-</button>
+        <button class="blood-opt" data-blood="O+">O+</button>
+        <button class="blood-opt" data-blood="O-">O-</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>المدينة</label>
+        <input type="text" id="m-city" placeholder="مثل: الرباط">
+      </div>
+      <div class="form-group">
+        <label>الهدف (عدد الوحدات)</label>
+        <input type="number" id="m-bags" placeholder="50" min="1">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>تاريخ البداية</label>
+        <input type="date" id="m-start">
+      </div>
+      <div class="form-group">
+        <label>تاريخ النهاية</label>
+        <input type="date" id="m-end">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>درجة الأولوية</label>
+        <select id="m-urgency">
+          <option value="critical">🔥 عاجلة</option>
+          <option value="high">⚠️ مهمة</option>
+          <option value="normal">✅ عادية</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>رقم التواصل</label>
+        <input type="tel" id="m-phone" placeholder="+212 5XX XXX XXX">
+      </div>
+    </div>
+
+    <button class="btn-submit" id="btn-submit">
+      <i class="fa fa-bullhorn"></i> نشر الحملة
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toast-msg"></span></div>
+
+<script>
+  /* ── Mobile Menu ── */
+  document.getElementById('menuToggle').addEventListener('click', function () {
+    const drawer = document.getElementById('mobileDrawer');
+    const isOpen = drawer.classList.toggle('open');
+    this.textContent = isOpen ? '✕' : '☰';
+  });
+  document.addEventListener('click', function (e) {
+    const drawer = document.getElementById('mobileDrawer');
+    const toggle = document.getElementById('menuToggle');
+    if (drawer.classList.contains('open') && !drawer.contains(e.target) && e.target !== toggle) {
+      drawer.classList.remove('open'); toggle.textContent = '☰';
+    }
+  });
+
+  /* ── Modal ── */
+  const modal = document.getElementById('modal');
+  document.getElementById('btn-open-modal').addEventListener('click', () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; resetForm(); }
+
+  /* ── Blood multi-select ── */
+  let selectedBloods = [];
+  document.getElementById('blood-selector').addEventListener('click', function (e) {
+    const btn = e.target.closest('.blood-opt');
+    if (!btn) return;
+    btn.classList.toggle('selected');
+    const b = btn.dataset.blood;
+    selectedBloods = btn.classList.contains('selected')
+      ? [...selectedBloods, b]
+      : selectedBloods.filter(x => x !== b);
+  });
+
+  /* ── Submit ── */
+  document.getElementById('btn-submit').addEventListener('click', function () {
+    const org     = document.getElementById('m-org').value.trim();
+    const title   = document.getElementById('m-title').value.trim();
+    const desc    = document.getElementById('m-desc').value.trim();
+    const city    = document.getElementById('m-city').value.trim();
+    const bags    = parseInt(document.getElementById('m-bags').value) || 0;
+    const start   = document.getElementById('m-start').value;
+    const end     = document.getElementById('m-end').value;
+    const urgency = document.getElementById('m-urgency').value;
+    const phone   = document.getElementById('m-phone').value.trim();
+
+    if (!org)                   return showToast('⚠️ أدخل اسم الجمعية');
+    if (!title)                 return showToast('⚠️ أدخل عنوان الحملة');
+    if (!selectedBloods.length) return showToast('⚠️ اختر فصيلة دم واحدة على الأقل');
+    if (!city)                  return showToast('⚠️ أدخل المدينة');
+    if (bags < 1)               return showToast('⚠️ أدخل عدد الوحدات');
+    if (!phone)                 return showToast('⚠️ أدخل رقم التواصل');
+
+    const urgMap   = { critical: 'عاجلة', high: 'مهمة', normal: 'عادية' };
+    const badgeCls = { critical: 'badge-critical', high: 'badge-urgent', normal: 'badge-normal' };
+    const cardCls  = { critical: 'critical', high: 'urgent', normal: 'normal' };
+
+    const dateStr = (start && end)
+      ? `من ${fmt(start)} — إلى ${fmt(end)}`
+      : 'تاريخ التبرع عند التواصل';
+
+    const tagsHTML = selectedBloods.map(b => `<span class="blood-tag">${b}</span>`).join('');
+
+    const card = document.createElement('div');
+    card.className = `campaign-card ${cardCls[urgency]}`;
+    card.dataset.urgency = urgency;
+    card.dataset.city    = city;
+    card.dataset.blood   = selectedBloods.join(',');
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="urgency-badge ${badgeCls[urgency]}"><span class="dot"></span> ${urgMap[urgency]}</div>
+        <div class="blood-badge"><span class="drop">🩸</span><span class="type">${selectedBloods[0]}</span></div>
+      </div>
+      <div class="card-body">
+        <div class="org-badge"><i class="fa fa-building"></i> جمعية</div>
+        <div class="campaign-title">${title}</div>
+        <div class="org-name"><i class="fa fa-heart"></i> ${org}</div>
+        <div class="campaign-desc">${desc || '—'}</div>
+        <div class="blood-tags">${tagsHTML}</div>
+        <div class="date-range"><i class="fa fa-calendar-alt"></i> ${dateStr}</div>
+        <div class="card-meta">
+          <div class="meta-row"><i class="fa fa-map-marker-alt"></i><span>${city}</span></div>
+          <div class="meta-row"><i class="fa fa-phone"></i><span>${phone}</span></div>
+        </div>
+        <div class="target-info"><span class="title">الهدف: ${bags} وحدة</span><span class="count">0 / ${bags}</span></div>
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div></div>
+      </div>
+      <div class="card-footer"><div class="card-actions">
+        <button class="btn-join" onclick="window.location.href='tel:${phone}'"><i class="fa fa-heart"></i> المشاركة في الحملة</button>
+        <button class="btn-info" onclick="shareCard(this)"><i class="fa fa-share-alt"></i></button>
+      </div></div>`;
+
+    document.getElementById('cards-grid').prepend(card);
+    closeModal();
+    showToast('✅ تم نشر الحملة بنجاح!');
+  });
+
+  function fmt(d) {
+    return new Date(d).toLocaleDateString('ar-MA', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function resetForm() {
+    ['m-org','m-title','m-desc','m-city','m-bags','m-start','m-end','m-phone'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('m-urgency').value = 'critical';
+    document.querySelectorAll('.blood-opt').forEach(b => b.classList.remove('selected'));
+    selectedBloods = [];
+  }
+
+  /* ── Share ── */
+  function shareCard(btn) {
+    const card = btn.closest('.campaign-card');
+    const txt  = `📣 حملة تبرع بالدم!\n${card.querySelector('.campaign-title')?.textContent}\n${card.querySelector('.org-name')?.textContent.trim()}\nالمدينة: ${card.dataset.city}\nتطبيق Monqid`;
+    navigator.share
+      ? navigator.share({ title: 'حملة تبرع', text: txt }).catch(() => {})
+      : navigator.clipboard.writeText(txt).then(() => showToast('تم نسخ تفاصيل الحملة 📋'));
+  }
+
+  /* ── Urgency tabs ── */
+  document.getElementById('urg-tabs').addEventListener('click', function (e) {
+    const btn = e.target.closest('.urg-btn');
+    if (!btn) return;
+    document.querySelectorAll('.urg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const urg = btn.dataset.urg;
+    document.querySelectorAll('.campaign-card').forEach(c => {
+      c.style.display = (urg === 'all' || c.dataset.urgency === urg) ? '' : 'none';
+    });
+  });
+
+  /* ── Filters ── */
+  function applyFilters() {
+    const q     = document.getElementById('search-inp').value.trim().toLowerCase();
+    const blood = document.getElementById('f-blood').value;
+    const city  = document.getElementById('f-city').value;
+    document.querySelectorAll('.campaign-card').forEach(c => {
+      const matchQ = !q || c.querySelector('.campaign-title')?.textContent.toLowerCase().includes(q)
+                       || c.querySelector('.org-name')?.textContent.toLowerCase().includes(q)
+                       || c.dataset.city.toLowerCase().includes(q);
+      const matchB = blood === 'all' || c.dataset.blood.includes(blood);
+      const matchC = city  === 'all' || c.dataset.city === city;
+      c.style.display = (matchQ && matchB && matchC) ? '' : 'none';
+    });
+  }
+
+  document.getElementById('search-inp').addEventListener('input', applyFilters);
+  document.getElementById('f-blood').addEventListener('change', applyFilters);
+  document.getElementById('f-city').addEventListener('change', applyFilters);
+
+  /* ── Toast ── */
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>
