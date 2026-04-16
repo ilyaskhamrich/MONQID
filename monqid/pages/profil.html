@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monqid – حساب المتبرع</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assests/css/index.css">
+  <style>
+    .profile-page { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+    .page-title { font-size: 26px; font-weight: 900; margin-bottom: 24px; }
+    .page-title span { color: var(--red); }
+    .profile-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+
+    /* Sidebar */
+    .profile-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 16px; text-align: center;
+    }
+    .avatar-wrap { position: relative; display: inline-block; margin-bottom: 12px; }
+    .avatar { width: 70px; height: 70px; background: rgba(232,48,74,0.12); border: 2px solid rgba(232,48,74,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto; }
+    .avatar-status { position: absolute; bottom: 2px; left: 2px; width: 14px; height: 14px; background: #4ade80; border: 2px solid var(--surface); border-radius: 50%; animation: blink 1.4s ease infinite; }
+    .avatar-status.offline { background: var(--muted); animation: none; }
+    .profile-name { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
+    .profile-city { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .blood-chip { display: inline-block; background: rgba(232,48,74,0.1); border: 1px solid rgba(232,48,74,0.3); color: var(--red); font-size: 13px; font-weight: 800; padding: 4px 14px; border-radius: 20px; margin-bottom: 14px; }
+    .status-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-top: 1px solid var(--border); margin-top: 10px; }
+    .status-label { font-size: 13px; color: var(--muted); }
+    .toggle-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(74,222,128,0.3); background: rgba(74,222,128,0.12); color: #4ade80; font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .toggle-btn .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 1.4s ease infinite; }
+
+    .stats-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px 16px; margin-top: 14px; }
+    .stats-card-title { font-size: 14px; font-weight: 800; margin-bottom: 14px; }
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .stat-row:last-child { border-bottom: none; }
+    .s-label { color: var(--muted); }
+    .s-val { font-weight: 900; color: var(--red); }
+    .btn-edit { width: 100%; margin-top: 14px; padding: 10px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn-edit:hover { border-color: rgba(232,48,74,0.4); color: var(--red); }
+
+    /* Main */
+    .main-content { min-width: 0; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-header h2 { font-size: 20px; font-weight: 900; }
+    .section-header h2 span { color: var(--red); }
+    .badge-count { background: rgba(232,48,74,0.1); border: 1px solid rgba(232,48,74,0.25); color: var(--red); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .ftab { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .ftab:hover { color: var(--text); }
+    .ftab.active { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: var(--text); }
+    .ftab.f-critical.active { background: rgba(232,48,74,0.12); border-color: rgba(232,48,74,0.4); color: #ff6b80; }
+
+    #cards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); }
+    .e-ico { font-size: 36px; margin-bottom: 12px; }
+
+    /* Prof detail */
+    #prof-detail { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; padding: 0 8px 12px; }
+    #prof-guest-hint { font-size: 12px; color: var(--muted); padding: 0 8px 12px; }
+    #prof-guest-hint a { color: var(--red); font-weight: 700; }
+
+    @media (max-width: 800px) {
+      .profile-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم <span class="nav-badge" id="nav-count">0</span></a></li>
+    <li><a href="Campagnes.html"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+    <li><a href="profil.html" class="active"><span class="nav-icon">👤</span> حسابي</a></li>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span></button>
+  </ul>
+  <div class="nav-auth">
+    <a href="login.html" class="btn-login" id="btn-logout-nav">تسجيل الخروج</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم</a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الخروج</a>
+  </div>
+</div>
+
+<div class="profile-page">
+  <div class="page-title">حساب <span>المتبرع</span></div>
+
+  <div class="profile-layout">
+
+    <!-- SIDEBAR -->
+    <div>
+      <div class="profile-card">
+        <div class="avatar-wrap">
+          <div class="avatar">🧑</div>
+          <div class="avatar-status" id="avatarDot"></div>
+        </div>
+        <div class="profile-name" id="prof-name">—</div>
+        <div class="profile-city" id="prof-city">📍 —</div>
+        <div class="blood-chip" id="prof-blood">🩸 —</div>
+
+        <div id="prof-detail" style="display:none">
+          <div><strong>البريد:</strong> <span id="prof-email">—</span></div>
+          <div><strong>الهاتف:</strong> <span id="prof-phone">—</span></div>
+          <div><strong>العنوان:</strong> <span id="prof-address">—</span></div>
+        </div>
+        <div id="prof-guest-hint">
+          <a href="login.html">سجّل الدخول</a> لعرض معلوماتك الشخصية.
+        </div>
+
+        <div class="status-toggle">
+          <span class="status-label">الحالة</span>
+          <button class="toggle-btn" id="statusBtn" onclick="toggleStatus()">
+            <span class="dot" id="statusDot"></span>
+            <span id="statusLbl">متاح</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-card-title">إحصائياتي</div>
+        <div class="stat-row"><span class="s-label">🩸 عدد التبرعات</span><span class="s-val" id="cnt-donations">0</span></div>
+        <div class="stat-row"><span class="s-label">❤️ الأرواح المنقذة</span><span class="s-val" id="cnt-lives">0</span></div>
+        <div class="stat-row"><span class="s-label">⭐ النقاط المكتسبة</span><span class="s-val" id="cnt-points">0</span></div>
+      </div>
+
+      <button class="btn-edit" onclick="alert('صفحة التعديل قريباً!')">✏️ تعديل الملف الشخصي</button>
+      <button class="btn-edit" style="margin-top:8px;color:#f87171;border-color:rgba(248,113,113,0.3)" onclick="logout()">🚪 تسجيل الخروج</button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+      <div class="section-header">
+        <h2>الطلبات <span>القريبة</span></h2>
+        <span class="badge-count" id="visible-count">0 طلبات</span>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab active" onclick="filterCards('all',this)">الكل</button>
+        <button class="ftab f-critical" onclick="filterCards('critical',this)">🔴 حرجة</button>
+        <button class="ftab" onclick="filterCards('urgent',this)">🟡 عاجلة</button>
+        <button class="ftab" onclick="filterCards('done',this)">✅ مقبولة</button>
+      </div>
+      <div id="cards-container"></div>
+      <div class="empty-state" id="empty-state" style="display:none">
+        <div class="e-ico">🩸</div>
+        <p>لا توجد طلبات في هذا التصنيف</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toast-msg"></span></div>
+
+<script src="../assests/js/utils.js"></script>
+<script src="../assests/js/profil.js"></script>
+<script>
+function logout() {
+  localStorage.removeItem('monqid-user-id');
+  localStorage.removeItem('monqid-user-name');
+  localStorage.removeItem('monqid-user-email');
+  window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>

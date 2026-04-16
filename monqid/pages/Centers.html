@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monqid – مراكز التبرع</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="../assests/css/index.css">
+  <style>
+    .centers-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+    }
+    .sidebar {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 20px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-header h2 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+    .sidebar-header h2 span { color: var(--red); }
+    .sidebar-header p { font-size: 12px; color: var(--muted); }
+    .sidebar-search { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .centers-list { flex: 1; overflow-y: auto; padding: 8px; }
+    .center-item {
+      padding: 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+    .center-item:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+    .center-item.active { background: rgba(232,48,74,0.08); border-color: rgba(232,48,74,0.3); }
+    .center-item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .center-name { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.4; }
+    .center-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; flex-shrink: 0; margin-right: 8px; }
+    .status-open   { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .status-closed { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+    .center-meta-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .center-meta-row i { color: var(--red); width: 12px; }
+    .center-blood-types { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .blood-chip {
+      background: rgba(232,48,74,0.1);
+      border: 1px solid rgba(232,48,74,0.25);
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    #map { flex: 1; z-index: 1; }
+    .leaflet-popup-content-wrapper {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(232,48,74,0.2);
+      border-radius: 12px;
+    }
+    .leaflet-popup-tip { background: var(--surface2); }
+    @media (max-width: 700px) {
+      .centers-layout { grid-template-columns: 1fr; grid-template-rows: 300px 1fr; }
+      #map { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم</a></li>
+    <li><a href="Campagnes.html"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html" class="active"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+    <li><a href="profil.html"><span class="nav-icon">👤</span> حسابي</a></li>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span></button>
+  </ul>
+  <div class="nav-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم</a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <a href="profil.html"><span>👤</span> حسابي</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<div class="centers-layout">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>📍 مراكز <span>التبرع</span></h2>
+      <p>7 مراكز في المغرب — انقر على مركز لعرضه على الخريطة</p>
+    </div>
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <i class="fa fa-search"></i>
+        <input type="text" id="search-inp" placeholder="ابحث بالمدينة أو اسم المركز...">
+      </div>
+    </div>
+    <div class="centers-list" id="centers-list"></div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../assests/js/utils.js"></script>
+<script src="../assests/js/centre.js"></script>
+</body>
+</html>

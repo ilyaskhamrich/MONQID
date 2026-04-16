@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monqid – تسجيل الدخول</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assests/css/index.css">
+  <link rel="stylesheet" href="../assests/css/auth.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم</a></li>
+    <li><a href="Campagnes.html"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span></button>
+  </ul>
+  <div class="nav-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم</a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="card-logo">
+      <div class="logo-icon-wrap">
+        <div class="logo-pulse-ring"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+      </div>
+      <div class="logo-name">Mon<span>qid</span></div>
+    </div>
+    <div class="card-title">مرحباً بعودتك 👋</div>
+    <div class="card-sub">سجّل الدخول وكن سبباً في إنقاذ حياة</div>
+    <div class="guest-notice">
+      <span class="notice-icon">💡</span>
+      <span>لا تحتاج حساباً للتبرع — يمكنك <a href="requests.html">تصفّح الطلبات</a> مباشرة بدون تسجيل.</span>
+    </div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <div class="input-wrap"><span class="ico">✉️</span><input type="email" id="l-email" placeholder="example@email.com" required></div>
+      </div>
+      <div class="form-group">
+        <label>كلمة المرور</label>
+        <div class="input-wrap"><span class="ico">🔒</span><input type="password" id="l-pass" placeholder="••••••••" required></div>
+      </div>
+      <div class="check-row">
+        <label><input type="checkbox"> تذكّرني</label>
+        <a href="#" class="forgot">نسيت كلمة المرور؟</a>
+      </div>
+      <button class="btn-submit" type="submit"><span>❤️</span> تسجيل الدخول</button>
+    </form>
+    <div class="divider"><hr><span>أو</span><hr></div>
+    <button class="btn-google">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      المتابعة مع Google
+    </button>
+    <p class="card-footer-link">ما عندكش حساب؟ <a href="register.html">إنشاء حساب</a></p>
+    <div class="guest-link"><a href="requests.html">← تصفّح بدون حساب</a></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toast-msg"></span></div>
+
+<script src="../assests/js/utils.js"></script>
+<script src="../assests/js/auth.js"></script>
+</body>
+</html>

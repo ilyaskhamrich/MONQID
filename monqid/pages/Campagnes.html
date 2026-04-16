@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monqid – حملات التبرع</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assests/css/index.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم</a></li>
+    <li><a href="Campagnes.html" class="active"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+    <li><a href="profil.html"><span class="nav-icon">👤</span> حسابي</a></li>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span></button>
+  </ul>
+  <div class="nav-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم</a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <a href="profil.html"><span>👤</span> حسابي</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>📣 حملات <span>التبرع</span></h1>
+      <p>حملات منظّمة من جمعيات ومراكز صحية معتمدة — شارك وأنقذ أرواحاً</p>
+    </div>
+    <button class="btn-add" id="btn-open-modal"><i class="fa fa-plus"></i> إضافة حملة</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-icon">🏥</div><div class="stat-info"><div class="num"><span id="stat-orgs">0</span></div><div class="lbl">جمعية مشاركة</div></div></div>
+    <div class="stat-card"><div class="stat-icon">📣</div><div class="stat-info"><div class="num"><span id="stat-active">0</span></div><div class="lbl">حملات نشطة</div></div></div>
+    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-info"><div class="num"><span id="stat-donors">0</span></div><div class="lbl">متبرع مشارك</div></div></div>
+    <div class="stat-card"><div class="stat-icon">🩸</div><div class="stat-info"><div class="num"><span id="stat-units">0</span></div><div class="lbl">وحدة دم جُمعت</div></div></div>
+  </div>
+
+  <div class="filters-bar">
+    <div class="search-wrap">
+      <i class="fa fa-search"></i>
+      <input type="text" id="search-inp" placeholder="ابحث باسم الجمعية أو المدينة...">
+    </div>
+    <select class="filter-select" id="f-blood">
+      <option value="all">كل الفصائل</option>
+      <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+      <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+    </select>
+    <select class="filter-select" id="f-city">
+      <option value="all">كل المدن</option>
+      <option>الرباط</option><option>الدار البيضاء</option>
+      <option>فاس</option><option>مراكش</option><option>طنجة</option><option>مكناس</option>
+    </select>
+  </div>
+
+  <div class="urgency-tabs" id="urg-tabs">
+    <button class="urg-btn active" data-urg="all">الكل</button>
+    <button class="urg-btn critical" data-urg="critical">🔥 عاجلة</button>
+    <button class="urg-btn" data-urg="high">⚠️ مهمة</button>
+    <button class="urg-btn" data-urg="normal">✅ عادية</button>
+  </div>
+
+  <div class="cards-grid" id="cards-grid"></div>
+</div>
+
+<!-- Modal إضافة حملة -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="btn-close-modal"><i class="fa fa-times"></i></button>
+    <h2>حملة <span>تبرع</span> جديدة</h2>
+    <p class="modal-sub">خاصة بالجمعيات والمراكز الصحية المعتمدة فقط</p>
+
+    <div class="form-row">
+      <div class="form-group"><label>اسم الجمعية / المؤسسة</label><input type="text" id="m-org" placeholder="مثل: جمعية الهلال الأحمر"></div>
+      <div class="form-group"><label>عنوان الحملة</label><input type="text" id="m-title" placeholder="مثل: حملة دمك حياة"></div>
+    </div>
+    <div class="form-group"><label>وصف الحملة</label><textarea id="m-desc" placeholder="اشرح هدف الحملة..."></textarea></div>
+    <div class="form-group">
+      <label>فصائل الدم المطلوبة (يمكن اختيار أكثر من واحدة)</label>
+      <div class="blood-selector" id="blood-selector">
+        <button class="blood-opt" data-blood="A+">A+</button>
+        <button class="blood-opt" data-blood="A-">A-</button>
+        <button class="blood-opt" data-blood="B+">B+</button>
+        <button class="blood-opt" data-blood="B-">B-</button>
+        <button class="blood-opt" data-blood="AB+">AB+</button>
+        <button class="blood-opt" data-blood="AB-">AB-</button>
+        <button class="blood-opt" data-blood="O+">O+</button>
+        <button class="blood-opt" data-blood="O-">O-</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>المدينة</label><input type="text" id="m-city" placeholder="مثل: الرباط"></div>
+      <div class="form-group"><label>الهدف (عدد الوحدات)</label><input type="number" id="m-bags" placeholder="50" min="1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>تاريخ البداية</label><input type="date" id="m-start"></div>
+      <div class="form-group"><label>تاريخ النهاية</label><input type="date" id="m-end"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>درجة الأولوية</label>
+        <select id="m-urgency">
+          <option value="critical">🔥 عاجلة</option>
+          <option value="high">⚠️ مهمة</option>
+          <option value="normal">✅ عادية</option>
+        </select>
+      </div>
+      <div class="form-group"><label>رقم التواصل</label><input type="tel" id="m-phone" placeholder="+212 5XX XXX XXX"></div>
+    </div>
+    <button class="btn-submit" id="btn-submit"><i class="fa fa-bullhorn"></i> نشر الحملة</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toast-msg"></span></div>
+
+<script src="../assests/js/utils.js"></script>
+<script src="../assests/js/campaigns.js"></script>
+</body>
+</html>

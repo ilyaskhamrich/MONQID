@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monqid – الرئيسية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assests/css/index.css">
+  <link rel="stylesheet" href="../assests/css/home.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <div class="logo-pulse"></div>
+      <svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C12 2 4 9.5 4 15a8 8 0 0 0 16 0C20 9.5 12 2 12 2z"/></svg>
+    </div>
+    <span class="logo-text">Mon<span>qid</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active"><span class="nav-icon">🏠</span> الرئيسية</a></li>
+    <li><a href="requests.html"><span class="nav-icon">🩸</span> طلبات الدم <span class="nav-badge" id="nav-count">0</span></a></li>
+    <li><a href="Campagnes.html"><span class="nav-icon">📣</span> حملات جديدة</a></li>
+    <li><a href="Centers.html"><span class="nav-icon">📍</span> مراكز التبرع</a></li>
+    <li><a href="profil.html"><span class="nav-icon">👤</span> حسابي</a></li>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span></button>
+  </ul>
+  <div class="nav-auth" id="nav-auth-area">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+  <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html"><span>🏠</span> الرئيسية</a>
+  <a href="requests.html"><span>🩸</span> طلبات الدم <span class="nav-badge" id="nav-count-mobile">0</span></a>
+  <a href="Campagnes.html"><span>📣</span> حملات جديدة</a>
+  <a href="Centers.html"><span>📍</span> مراكز التبرع</a>
+  <a href="profil.html"><span>👤</span> حسابي</a>
+  <div class="mobile-divider"></div>
+  <div class="mobile-auth">
+    <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    <a href="register.html" class="btn-register">إنشاء حساب</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-tag"><span class="dot"></span> منصة التبرع بالدم في المغرب</div>
+  <h1>كن سببًا في <span>ابتسامة حياة</span></h1>
+  <div class="hero-verse">
+    «وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا»
+    <span class="source">— سورة المائدة، الآية 32</span>
+  </div>
+  <div class="hero-hadith">
+    «مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا، نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ»
+    <span class="source">— رواه مسلم</span>
+  </div>
+  <p class="hero-sub">قطرة دم منك قد تكون الفرق بين الحياة والموت.<br>سجّل كمتبرع أو ابحث عن متبرع الآن.</p>
+  <div class="hero-btns">
+    <a href="requests.html" class="btn-hero-secondary"><i class="fa fa-tint"></i> في حاجة إلى دم</a>
+    <a href="Campagnes.html" class="btn-hero-primary"><i class="fa fa-heart"></i> أنا متبرع بالدم</a>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="num" id="users-count">0</span><span class="lbl">متبرع مسجّل</span></div>
+    <div class="stat-item"><span class="num" id="hospitals-count">0</span><span class="lbl">مستشفى شريك</span></div>
+    <div class="stat-item"><span class="num" id="orders-count">0</span><span class="lbl">طلب دم تم تلبيته</span></div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="section-title">
+    <h2>كل ما تحتاجه في <span>مكان واحد</span></h2>
+    <p>منصة Monqid تربط المتبرعين بمن يحتاج الدم بشكل سريع وآمن</p>
+  </div>
+  <div class="features-grid">
+    <a href="requests.html" class="feature-card"><span class="feature-icon">🩸</span><h3>طلبات الدم</h3><p>تصفّح طلبات التبرع الحالية وتواصل مع أهل المريض مباشرة</p></a>
+    <a href="Campagnes.html" class="feature-card"><span class="feature-icon">📣</span><h3>حملات التبرع</h3><p>حملات منظّمة من جمعيات ومراكز صحية معتمدة في مختلف المدن</p></a>
+    <a href="Centers.html" class="feature-card"><span class="feature-icon">📍</span><h3>مراكز التبرع</h3><p>اعثر على أقرب مركز تبرع إليك مع أوقات العمل والفصائل المتاحة</p></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Mon<span>qid</span></div>
+    <p>منصة مغربية لربط المتبرعين بالدم مع من يحتاجهم</p>
+    <p style="font-size:12px;margin-top:8px">© 2026 Monqid — جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+
+<script src="../assests/js/utils.js"></script>
+<script src="../assests/js/home.js"></script>
+</body>
+</html>
